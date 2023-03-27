@@ -3,7 +3,7 @@ pragma solidity ^0.8.10;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./ICryptoDevs.sol";
+import "./ISaitama.sol";
 
 contract CryptoDevToken is ERC20, Ownable {
     // Price of one Crypto Dev token
@@ -16,14 +16,14 @@ contract CryptoDevToken is ERC20, Ownable {
     // More information on this can be found in the Freshman Track Cryptocurrency tutorial.
     uint256 public constant tokensPerNFT = 10 * 10**18;
     // the max total supply is 10000 for Crypto Dev Tokens
-    uint256 public constant maxTotalSupply = 10000 * 10**18;
-    // CryptoDevsNFT contract instance
-    ICryptoDevs CryptoDevsNFT;
+    uint256 public constant maxTotalSupply = 100000000 * 10**18;
+    
+    ISaitama SaitamaNFT;
     // Mapping to keep track of which tokenIds have been claimed
     mapping(uint256 => bool) public tokenIdsClaimed;
 
-    constructor(address _cryptoDevsContract) ERC20("Crypto Dev Token", "CD") {
-        CryptoDevsNFT = ICryptoDevs(_cryptoDevsContract);
+    constructor(address _SaitamaContract) ERC20("Crypto Dev Token", "CD") {
+        SaitamaNFT = ISaitama(_SaitamaContract);
     }
 
     /**
@@ -54,14 +54,14 @@ contract CryptoDevToken is ERC20, Ownable {
     function claim() public {
         address sender = msg.sender;
         // Get the number of CryptoDev NFT's held by a given sender address
-        uint256 balance = CryptoDevsNFT.balanceOf(sender);
+        uint256 balance = SaitamaNFT.balanceOf(sender);
         // If the balance is zero, revert the transaction
-        require(balance > 0, "You dont own any Crypto Dev NFT's");
+        require(balance > 0, "You dont own any Saitama NFT's");
         // amount keeps track of number of unclaimed tokenIds
         uint256 amount = 0;
         // loop over the balance and get the token ID owned by `sender` at a given `index` of its token list.
         for (uint256 i = 0; i < balance; i++) {
-            uint256 tokenId = CryptoDevsNFT.tokenOfOwnerByIndex(sender, i);
+            uint256 tokenId = SaitamaNFT.tokenOfOwnerByIndex(sender, i);
             // if the tokenId has not been claimed, increase the amount
             if (!tokenIdsClaimed[tokenId]) {
                 amount += 1;

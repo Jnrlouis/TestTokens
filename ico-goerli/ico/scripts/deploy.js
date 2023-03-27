@@ -1,10 +1,10 @@
 const { ethers } = require("hardhat");
 require("dotenv").config({ path: ".env" });
-const { CRYPTO_DEVS_NFT_CONTRACT_ADDRESS } = require("../constants");
+const { SAITAMA_NFT_CONTRACT_ADDRESS } = require("../constants");
 
 async function main() {
   // Address of the Crypto Devs NFT contract that you deployed in the previous module
-  const cryptoDevsNFTContract = CRYPTO_DEVS_NFT_CONTRACT_ADDRESS;
+  const saitamaNFTContract = SAITAMA_NFT_CONTRACT_ADDRESS;
 
   /*
     A ContractFactory in ethers.js is an abstraction used to deploy new smart contracts,
@@ -16,7 +16,7 @@ async function main() {
 
   // deploy the contract
   const deployedCryptoDevsTokenContract = await cryptoDevsTokenContract.deploy(
-    cryptoDevsNFTContract
+    saitamaNFTContract
   );
 
   // print the address of the deployed contract
